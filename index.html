@@ -1,7 +1,9 @@
-
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asmara Wedding AR</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
 
@@ -732,29 +734,7 @@
   .status-current { background: var(--gold); color: var(--dark); }
   .status-upcoming { background: rgba(201,169,110,0.15); color: var(--muted); }
 
-  /* === FLOATING AR BUTTON === */
-  .fab {
-    position: fixed;
-    bottom: 90px;
-    right: 20px;
-    width: 56px; height: 56px;
-    background: var(--rose);
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    box-shadow: 0 4px 20px rgba(212,137,106,0.5);
-    z-index: 100;
-    animation: float 3s ease-in-out infinite;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
-  }
-
-  /* === NOTIFICATION TOAST === */
+  /* === TOAST === */
   .toast {
     position: fixed;
     top: -80px;
@@ -774,26 +754,18 @@
 
   .toast.show { top: 20px; }
 
-  /* === AR SIMULATION ANIMATION === */
-  .decor-placed {
-    position: absolute;
-    pointer-events: none;
-    animation: placeDecor 0.5s ease-out;
-  }
-
-  @keyframes placeDecor {
-    from { transform: scale(0) rotate(-20deg); opacity: 0; }
-    to { transform: scale(1) rotate(0deg); opacity: 1; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
   }
 </style>
 </head>
 <body>
 <div class="app" id="app">
 
-  <!-- Toast Notification -->
   <div class="toast" id="toast"></div>
 
-  <!-- ===== SPLASH SCREEN ===== -->
+  <!-- SPLASH -->
   <div class="screen active" id="splash">
     <svg class="splash-ornament" viewBox="0 0 120 120" fill="none">
       <circle cx="60" cy="60" r="55" stroke="#C9A96E" stroke-width="0.5" stroke-dasharray="4 4"/>
@@ -818,7 +790,7 @@
     <button class="btn-outline" onclick="showScreen('home')" style="margin-top:8px;">MASUK AKUN</button>
   </div>
 
-  <!-- ===== HOME SCREEN ===== -->
+  <!-- HOME -->
   <div class="screen" id="home">
     <div class="home-header">
       <div class="home-greeting">Selamat datang kembali</div>
@@ -913,7 +885,6 @@
       </div>
     </div>
 
-    <!-- Bottom Nav -->
     <div class="bottom-nav" style="position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;z-index:50;">
       <button class="nav-item active" onclick="showScreen('home')">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -934,7 +905,7 @@
     </div>
   </div>
 
-  <!-- ===== AR VIEWER SCREEN ===== -->
+  <!-- AR VIEWER -->
   <div class="screen" id="ar-viewer">
     <div class="app-header">
       <button class="back-btn" onclick="showScreen('home')">←</button>
@@ -943,26 +914,17 @@
     </div>
 
     <div class="ar-viewport" id="ar-viewport">
-      <!-- Simulated AR Room -->
       <div class="ar-room">
         <svg class="room-svg" viewBox="0 0 380 260" fill="none" id="ar-scene">
-          <!-- Floor -->
           <ellipse cx="190" cy="220" rx="170" ry="30" fill="rgba(201,169,110,0.1)"/>
-          <!-- Back wall hint -->
           <rect x="40" y="60" width="300" height="160" rx="2" fill="rgba(255,255,255,0.03)" stroke="rgba(201,169,110,0.15)" stroke-width="0.5"/>
-
-          <!-- AR Grid overlay -->
           <line x1="40" y1="170" x2="340" y2="170" stroke="rgba(201,169,110,0.2)" stroke-width="0.5" stroke-dasharray="8 4"/>
           <line x1="40" y1="200" x2="340" y2="200" stroke="rgba(201,169,110,0.15)" stroke-width="0.5" stroke-dasharray="8 4"/>
           <line x1="120" y1="100" x2="120" y2="230" stroke="rgba(201,169,110,0.12)" stroke-width="0.5" stroke-dasharray="8 4"/>
           <line x1="190" y1="80" x2="190" y2="230" stroke="rgba(201,169,110,0.2)" stroke-width="0.5" stroke-dasharray="8 4"/>
           <line x1="260" y1="100" x2="260" y2="230" stroke="rgba(201,169,110,0.12)" stroke-width="0.5" stroke-dasharray="8 4"/>
-
-          <!-- Wedding Arch -->
           <path d="M140 200 Q140 90 190 80 Q240 90 240 200" stroke="#C9A96E" stroke-width="2" fill="rgba(201,169,110,0.1)"/>
           <path d="M145 200 Q145 95 190 86 Q235 95 235 200" stroke="rgba(201,169,110,0.3)" stroke-width="0.5" fill="none"/>
-
-          <!-- Flowers on arch -->
           <circle cx="155" cy="110" r="6" fill="rgba(212,137,106,0.6)"/>
           <circle cx="148" cy="130" r="5" fill="rgba(212,137,106,0.5)"/>
           <circle cx="225" cy="110" r="6" fill="rgba(212,137,106,0.6)"/>
@@ -970,32 +932,22 @@
           <circle cx="190" cy="82" r="7" fill="rgba(212,137,106,0.7)"/>
           <circle cx="178" cy="86" r="4" fill="rgba(212,137,106,0.5)"/>
           <circle cx="202" cy="86" r="4" fill="rgba(212,137,106,0.5)"/>
-
-          <!-- Table -->
           <rect x="155" y="190" width="70" height="8" rx="1" fill="#C9A96E" opacity="0.6"/>
           <rect x="162" y="198" width="4" height="20" fill="#C9A96E" opacity="0.4"/>
           <rect x="219" y="198" width="4" height="20" fill="#C9A96E" opacity="0.4"/>
-
-          <!-- Candles on table -->
           <rect x="173" y="178" width="4" height="14" rx="1" fill="white" opacity="0.8"/>
           <ellipse cx="175" cy="178" rx="2" ry="3" fill="#FFD700" opacity="0.9"/>
           <rect x="183" y="175" width="4" height="17" rx="1" fill="white" opacity="0.8"/>
           <ellipse cx="185" cy="175" rx="2" ry="3" fill="#FFD700" opacity="0.9"/>
           <rect x="208" y="180" width="4" height="12" rx="1" fill="white" opacity="0.8"/>
           <ellipse cx="210" cy="180" rx="2" ry="3" fill="#FFD700" opacity="0.9"/>
-
-          <!-- Flower centerpiece -->
           <circle cx="192" cy="188" r="5" fill="rgba(212,137,106,0.8)"/>
           <circle cx="188" cy="184" r="3" fill="rgba(212,137,106,0.6)"/>
           <circle cx="196" cy="184" r="3" fill="rgba(212,137,106,0.6)"/>
-
-          <!-- Chairs -->
           <rect x="105" y="195" width="24" height="16" rx="1" fill="rgba(201,169,110,0.3)" stroke="#C9A96E" stroke-width="0.5"/>
           <rect x="107" y="193" width="20" height="6" rx="1" fill="rgba(201,169,110,0.4)"/>
           <rect x="251" y="195" width="24" height="16" rx="1" fill="rgba(201,169,110,0.3)" stroke="#C9A96E" stroke-width="0.5"/>
           <rect x="253" y="193" width="20" height="6" rx="1" fill="rgba(201,169,110,0.4)"/>
-
-          <!-- Lights/string lights -->
           <path d="M60 70 Q130 90 190 70 Q250 50 330 70" stroke="rgba(255,220,100,0.4)" stroke-width="0.8" fill="none"/>
           <circle cx="80" cy="73" r="2" fill="#FFD700" opacity="0.7"/>
           <circle cx="120" cy="84" r="2" fill="#FFD700" opacity="0.7"/>
@@ -1004,14 +956,10 @@
           <circle cx="240" cy="63" r="2" fill="#FFD700" opacity="0.7"/>
           <circle cx="280" cy="69" r="2" fill="#FFD700" opacity="0.7"/>
           <circle cx="310" cy="73" r="2" fill="#FFD700" opacity="0.7"/>
-
-          <!-- AR Corner indicators -->
           <path d="M40 60 L60 60 M40 60 L40 80" stroke="#C9A96E" stroke-width="1.5" stroke-linecap="round"/>
           <path d="M340 60 L320 60 M340 60 L340 80" stroke="#C9A96E" stroke-width="1.5" stroke-linecap="round"/>
           <path d="M40 240 L60 240 M40 240 L40 220" stroke="#C9A96E" stroke-width="1.5" stroke-linecap="round"/>
           <path d="M340 240 L320 240 M340 240 L340 220" stroke="#C9A96E" stroke-width="1.5" stroke-linecap="round"/>
-
-          <!-- AR Label -->
           <rect x="10" y="150" width="58" height="16" rx="1" fill="rgba(201,169,110,0.9)"/>
           <text x="39" y="162" text-anchor="middle" font-family="Jost" font-size="9" fill="#1A1510" letter-spacing="1" font-weight="500">RUSTIC GOLD</text>
         </svg>
@@ -1025,13 +973,11 @@
         <button class="ar-capture" onclick="showToast('📸 Foto tersimpan ke galeri!')">📸</button>
       </div>
 
-      <!-- Placement guide -->
       <div style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.6);padding:6px 16px;border:0.5px solid rgba(201,169,110,0.4);">
         <span style="font-size:10px;color:#C9A96E;letter-spacing:2px;">ARAHKAN KE RUANGAN</span>
       </div>
     </div>
 
-    <!-- Decor Selector -->
     <div class="decor-selector">
       <div style="font-size:10px;letter-spacing:3px;color:#8B7355;text-transform:uppercase;margin-bottom:12px;">Pilih Elemen Dekorasi</div>
       <div class="decor-scroll">
@@ -1072,7 +1018,7 @@
     </div>
   </div>
 
-  <!-- ===== CATALOG SCREEN ===== -->
+  <!-- CATALOG -->
   <div class="screen" id="catalog">
     <div class="app-header">
       <button class="back-btn" onclick="showScreen('home')">←</button>
@@ -1139,7 +1085,7 @@
     </div>
   </div>
 
-  <!-- ===== PACKAGES SCREEN ===== -->
+  <!-- PACKAGES -->
   <div class="screen" id="packages">
     <div class="app-header">
       <button class="back-btn" onclick="showScreen('home')">←</button>
@@ -1208,7 +1154,7 @@
     </div>
   </div>
 
-  <!-- ===== TIMELINE SCREEN ===== -->
+  <!-- TIMELINE -->
   <div class="screen" id="timeline">
     <div class="app-header">
       <button class="back-btn" onclick="showScreen('home')">←</button>
@@ -1351,8 +1297,6 @@ function filterCatalog(el, cat) {
   showToast('Menampilkan tema: ' + cat);
 }
 
-// Countdown animation
-let d = 127;
 setInterval(()=>{
   const el = document.getElementById('days-count');
   if(el) el.style.transform = 'scale(1.05)';
